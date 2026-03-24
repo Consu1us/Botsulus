@@ -1,28 +1,28 @@
 /* eslint-disable no-undef */
 require('dotenv').config();
 const Discord = require("discord.js");
-const {Collection, Events, ActivityType } = require('discord.js');
+const {Client, GatewayIntentBits, Partials, Collection, Events, ActivityType, EmbedBuilder } = require('discord.js');
 require('process');
 const fs = require('node:fs');
 const path = require('node:path');
-const client = new Discord.Client({
+const client = new Client({
     intents: [
-    Discord.GatewayIntentBits.Guilds,
-    Discord.GatewayIntentBits.GuildMessages,
-    Discord.GatewayIntentBits.GuildMessageReactions,
-    Discord.GatewayIntentBits.GuildMembers,
-    Discord.GatewayIntentBits.MessageContent,    
-    Discord.GatewayIntentBits.GuildPresences,
-    Discord.GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.MessageContent,    
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.DirectMessages,
 ],
     partials: [
-        Discord.Partials.Channel,
-        Discord.Partials.Message
+        Partials.Channel,
+        Partials.Message
     ]
 });
 const token = process.env.BOT_TOKEN;
 client.login(token);
-client.on('ready', async () => {
+client.on('clientReady', async () => {
     console.log(`Client logged into: ${client.user.username}`);
     client.user.setPresence({ 
         activities: [{ name: 'Free me from my robotic prison', type: ActivityType.Custom }], 
@@ -106,7 +106,7 @@ client.on("messageCreate", async message => {
         message.reply('Sorry, please resend your message with the URL instead of the uploaded attachment (Right click, copy URL, then send again)')
         return;
     }
-    const embed = new Discord.EmbedBuilder()
+    const embed = new EmbedBuilder()
         .setColor('#0923b5')
         .setAuthor({name: 'DM Received!', iconURL: message.author.displayAvatarURL()})
         .addFields(
